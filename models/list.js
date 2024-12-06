@@ -4,7 +4,6 @@ const User = require('./user');
 const Group = require('./group');
 const Workload = require('./workload');
 
-
 const listSchema = new Schema({
     userId: {
         type: ObjectId,
@@ -18,12 +17,11 @@ const listSchema = new Schema({
     content: {
         type: String,
     },
-    workloadId:{
+    workloadId: {
         type: ObjectId,
         ref: Workload,
-    },
-
-})
+    }
+}, { timestamps: true });  // Bật timestamps
 
 const List = model("List", listSchema);
 module.exports = List;

@@ -2,6 +2,7 @@ const Group = require("../models/group");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
 
+
 // Tạo group mới
 async function createGroup(req, res) {
     const { createdBy, name, member } = req.body;
@@ -11,11 +12,15 @@ async function createGroup(req, res) {
     }
 
     try {
+        // Đảm bảo rằng createdBy luôn có mặt trong mảng member
+        const allMembers = member ? [...member, createdBy] : [createdBy];
+
+        // Tạo group mới với các thành viên đã bao gồm createdBy
         const newGroup = await Group.create({
             createdBy: new ObjectId(createdBy),
             name,
-            member: member ? member.map(id => new ObjectId(id)) : [],
-            ListId: []
+            member: allMembers.map(id => new ObjectId(id)), // Chuyển tất cả thành viên thành ObjectId
+            ListId: [] // Nếu có trường ListId cần thiết
         });
 
         return res.status(201).json(newGroup);

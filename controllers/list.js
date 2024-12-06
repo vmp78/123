@@ -5,20 +5,19 @@ const mongoose = require("mongoose");
 const createList = async (req, res) => {
     try {
         const { userId, groupId, content } = req.body;
-        console.log(req.body)
-        // if (!userId) {
-        //     return res.status(400).json({ error: "UserId is required" });
-        // }
+        if (!userId) {
+            return res.status(400).json({ error: "UserId is required" });
+        }
 
-        // const newList = new List({
-        //     userId,
-        //     groupId: groupId || null, // Nếu groupId không có, mặc định là null
-        //     content,
-        //     workloadId: null // Mặc định là null
-        // });
-
-        // await newList.save();
-        res.status(201).json({ message: "List created successfully"});
+        const newList = new List({
+            userId,
+            groupId: groupId || null, // Nếu groupId không có, mặc định là null
+            content,
+            workloadId: null // Mặc định là null
+        });
+        console.log(newList)
+        await newList.save();
+        res.status(201).json({ message: "List created successfully", data: newList});
     } catch (error) {
         res.status(500).json({ error: "Failed to create list", details: error.message });
     }

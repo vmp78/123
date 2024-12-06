@@ -14,6 +14,7 @@ const groupSchema = new Schema({
     },
     member:{
         type: [ObjectId],
+        ref: User,
     },
     ListId:{
         type: [ObjectId]
